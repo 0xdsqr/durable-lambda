@@ -1,48 +1,60 @@
 { nixpkgs, system }:
 let
   pkgs = import nixpkgs { inherit system; };
+  nodePkgs = pkgs.nodePackages; # access npm-based packages
 in
 {
-  # import the dev pkgs from compilation
   packages.${system}.default = [
     pkgs.bun
+    pkgs.awscli2
   ];
 
-  # Create a development shell
   devShells.${system}.default = pkgs.mkShell {
     buildInputs = with pkgs; [
-      # Core packages
+      # Core CLI utilities
       curl
       wget
-
-      # Development tools
       just
 
-      # Nix development tools
+      # Nix tooling
       nixfmt-rfc-style
       nixfmt-tree
       statix
       deadnix
       nil
 
-      # Language runtimes
+      # Language/runtime
       bun
+      nodejs_22
+
+      # AWS tooling
+      awscli2
+      nodePkgs.aws-cdk
+
+      # Shell experience
       starship
     ];
 
     shellHook = ''
-      # Initialize starship for the current shell
+      # Initialize starship
       if [[ -n "$ZSH_VERSION" ]]; then
         eval "$(starship init zsh)"
       else
         eval "$(starship init bash)"
       fi
 
-      echo "Bun version: $(bun --version)"
-      echo "🚀 Development shell activated, you can now compile things"
+      echo ""
+      echo "🪄 Durable Lambda Dev Shell"
+      echo "────────────────────────────"
+      echo "Bun:        $(bun --version)"
+      echo "Node:       $(node --version)"
+      echo "AWS CLI:    $(aws --version)"
+      echo "AWS CDK:    $(cdk --version)"
+      echo "────────────────────────────"
+      echo "🚀 Ready for CDK deploys!"
+      echo ""
     '';
 
-    # Prefer zsh as the shell
     preferLocalBuild = true;
     shell = "${pkgs.zsh}/bin/zsh";
   };

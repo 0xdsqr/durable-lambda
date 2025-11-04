@@ -1,0 +1,25 @@
+{
+  "name": "@dsqr-durable-labmda/example-basic",
+  "version": "0.1.0",
+  "bin": {
+    "basic": "bin/basic.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w",
+    "cdk": "cdk"
+  },
+  "devDependencies": {
+    "@types/node": "22.7.9",
+    "aws-cdk": "^2.1031.1",
+    "ts-node": "^10.9.2",
+    "typescript": "~5.6.3"
+  },
+  "dependencies": {
+    "@dsqr/durable-lambda": "^0.0.0-next.13",
+    "@types/aws-lambda": "^8.10.157",
+    "aws-cdk-lib": "^2.221.1",
+    "constructs": "^10.4.2",
+    "esbuild": "^0.25.12"
+  }
+}

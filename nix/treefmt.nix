@@ -20,26 +20,11 @@
     };
   };
 
-  # Add prettier for CSS/Tailwind support
-  programs.prettier = {
-    enable = true;
-    includes = [ "**/*.css" ];
-  };
-
-  # Configure biome for JS/TS/JSON only, exclude CSS due to Tailwind syntax
+  # Configure biome for JS/TS/JSON in packages only
   settings.formatter.biome = {
-    includes = [
-      "**/*.{js,mjs,cjs,jsx,ts,mts,cts,tsx}"
-      "**/*.{json,jsonc}"
-    ];
+    includes = [ "packages/**/*.{js,ts,jsx,tsx,json,jsonc}" ];
     excludes = [
-      "**/*.css" # Exclude all CSS files due to Tailwind syntax
-      "*.min.js"
-      "*.gen.ts"
-      "routeTree.gen.ts"
       "node_modules/**"
-      ".vite/**"
-      "pkgs/*"
       "dist/**"
       "build/**"
     ];
